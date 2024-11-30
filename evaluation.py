@@ -9,116 +9,109 @@ from tensorflow.keras.layers import Dense, Input, LSTM
 from tcn import TCN
 import lib
 from keras_tuner.tuners import RandomSearch
+import keras_tuner
+from sklearn import model_selection
+import numpy as np
 
-best_tcn_window = 20
-best_lstm_window = 20
 
-def best_window(model: str, train_data, test_data):
-    """
-    Find the best window size for model (tcn|lstm)
-    """
-    if model not in ["tcn", "lstm"]:
-        print("Invalid model")
-        return
+def build_lstm_model_cv(hp):
+    # Define hyperparameters
+    window_length = hp.Int('window_length', 50, 200, step=10)  # Tune window length
+    units = hp.Int('units', 16, 128, step=16)             # Number of units
 
-    # Prepare sequences and labels
-    train_sequences = lib.get_seq(train_data['sequence'])
-    train_labels = lib.get_labels(train_data['label'])
-    
-    test_sequences = lib.get_seq(test_data['sequence'])
-    test_labels = lib.get_labels(test_data['label'])
-   
-    # Test various window lengths
-    window_lengths = range(15, 101, 5)
-    results = []
-
-    # Replace the model creation logic in the loop with the updated function
-    for window_length in window_lengths:
-        print(f"Testing with window length: {window_length}")
-
-        # Extract sliding windows for training data
-        X_train, y_train = lib.extract_sliding_windows(train_sequences, train_labels, window_length)
-
-        # Extract sliding windows for testing data
-        X_test, y_test = lib.extract_sliding_windows(test_sequences, test_labels, window_length)
-
-        if model == "tcn":
-            model = lib.build_tcn_model(window_length)
-        else:
-            model = lib.build_lstm_model(window_length)
-
-        # Compile the model
-        model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
-
-        # Train the model
-        model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_test, y_test), verbose=1)
-
-        # Evaluate the model
-        test_loss, test_accuracy = model.evaluate(X_test, y_test, verbose=0)
-        results.append({"window_length": window_length, "test_loss": test_loss, "test_accuracy": test_accuracy})
-        print(f"Window Length: {window_length}, Test Loss: {test_loss:.4f}, Test Accuracy: {test_accuracy:.4f}")
-    
-    
-    # Display results
-    results_df = pd.DataFrame(results)
-    results_df.to_csv("results_window_lengths.csv", index=False)
-    print("Results saved to results_window_lengths.csv")
-
-def build_tcn_model(hp):
+    # Define the model
     model = Sequential([
-        Input(shape=(best_tcn_window, 1)),  # Define the input shape explicitly
-        TCN(
-            nb_filters=hp.Int('nb_filters', 16, 128, step=16),
-            kernel_size=hp.Choice('kernel_size', [2, 3, 5])
-        ),
+        Input(shape=(window_length, 1)),  # Input shape uses dynamic window length
+        LSTM(units=units),
         Dense(1, activation="sigmoid")  # Binary classification
     ])
+
+    # Compile the model
     model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
     return model
 
-def build_lstm_model(hp):
+
+def build_tcn_model_cv(hp):
+    # Define hyperparameters
+    window_length = hp.Int('window_length', 50, 200, step=10)  # Tune window length
+    nb_filters = hp.Int('nb_filters', 16, 128, step=16)  # Number of filters
+    kernel_size = hp.Choice('kernel_size', [2, 3, 5])  # Kernel size
+
+    # Define the model
     model = Sequential([
-        Input(shape=(best_lstm_window, 1)),
-        LSTM(
-            units=hp.Int('units', 16, 128, step=16)
-        ),
-        Dense(1, activation="sigmoid")
+        Input(shape=(window_length, 1)),  # Input shape uses dynamic window length
+        TCN(nb_filters=nb_filters, kernel_size=kernel_size),
+        Dense(1, activation="sigmoid")  # Binary classification
     ])
-    model.compile(
-        optimizer="adam",
-        loss="binary_crossentropy",
-        metrics=["accuracy"]
-    )
+
+    # Compile the model
+    model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
     return model
 
 
-def tune_hyper(train_data, test_data, window_length, model_func):
-    # Parse sequences into lists of integers
+
+class CVTuner(keras_tuner.engine.tuner.Tuner):
+    """
+    Custom tuner for cross validation
+
+    Modified from:
+    https://freedium.cfd/https://python.plainenglish.io/how-to-do-cross-validation-in-keras-tuner-db4b2dbe079a
+    """
+    def run_trial(self, trial, x, y, epochs = 10):
+        cv = model_selection.KFold(5)
+        val_losses = []
+
+        window_length = trial.hyperparameters.get('window_length')
+        X, y = lib.extract_sliding_windows(x, y, window_length)
+
+        for train_indices, test_indices in cv.split(x):
+            x_train, x_test = X[train_indices], X[test_indices]
+            y_train, y_test = y[train_indices], y[test_indices]
+            model = self.hypermodel.build(trial.hyperparameters)
+            model.fit(x_train, y_train, epochs=epochs)
+            val_losses.append(model.evaluate(x_test, y_test))
+
+        self.oracle.update_trial(trial.trial_id, {'val_loss': np.mean(val_losses)})
+
+def hyper_optim_cv(train_data, model_func, tag, max_trials=10, epochs=10, oracle=keras_tuner.oracles.BayesianOptimizationOracle):
     train_sequences = lib.get_seq(train_data['sequence'])
     train_labels = lib.get_labels(train_data['label'])
 
-    test_sequences = lib.get_seq(test_data['sequence'])
-    test_labels = lib.get_labels(test_data['label'])
-
-    X_train, y_train = lib.extract_sliding_windows(train_sequences, train_labels, window_length)
-    X_test, y_test = lib.extract_sliding_windows(test_sequences, test_labels, window_length)
-    tuner = RandomSearch(
-        model_func,
-        objective="val_accuracy",
-        max_trials=100,
+    # Define the tuner
+    tuner = CVTuner(
+        hypermodel=model_func,
+        oracle=oracle(
+            objective="val_loss",  # Optimize validation loss
+            max_trials=max_trials
+        ),
         directory="tuning",
-        project_name="tcn_adfa_tuning"
+        project_name=f"{tag}_tuning_cv"
     )
-    
-    tuner.search(X_train, y_train, epochs=10, validation_data=(X_test, y_test))
 
+    # Perform the search
+    tuner.search(
+        x=train_sequences,
+        y=train_labels,
+        epochs=epochs
+    )
+
+    # Retrieve the best hyperparameters
+    best_hps = tuner.get_best_hyperparameters(num_trials=1)[0]
+    print("Best hyperparameters:", best_hps.values)
+
+    return best_hps
 
 if __name__ == "__main__":
     # Load data from CSV files
     train_d = pd.read_csv("data/train_data.csv")
     test_d = pd.read_csv("data/test_data.csv")
 
-    best_window("lstm", train_d, test_d)
-    # tune_hyper(train_d, test_d, 5, build_tcn_model)
-    # tune_hyper(train_d, test_d, 5, build_lstm_model)
+    best = hyper_optim_cv(train_data=train_d, model_func=build_tcn_model_cv, tag="tcn", max_trials=50)
+    print(f"TCN Best {best.values}")
+
+    best = hyper_optim_cv(train_data=train_d, model_func=build_lstm_model_cv, tag="lstm", max_trials=50)
+    print(f"LSTM Best {best.values}")
+
+
+
 

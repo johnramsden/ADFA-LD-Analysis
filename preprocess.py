@@ -31,7 +31,7 @@ def preprocess():
     df = pd.DataFrame(data)
 
     # Split data into training and testing sets
-    train_data, test_data = train_test_split(df, test_size=0.3, stratify=df["label"], random_state=42)
+    train_data, test_data = train_test_split(df, test_size=0.2, stratify=df["label"], random_state=42)
 
     # Save to CSV or other format if needed
     train_data.to_csv("train_data.csv", index=False)
@@ -55,6 +55,28 @@ def check_unique_vals():
 
     print(uniq)
 
+
+def check_syscalls():
+    # Load data from CSV files
+    train_d = pd.read_csv("data/train_data.csv")
+    test_d = pd.read_csv("data/test_data.csv")
+
+    train_sequences = lib.get_seq(train_d['sequence'])
+    test_sequences = lib.get_seq(test_d['sequence'])
+
+    cnt = 0
+    for a in train_sequences:
+        cnt+=len(a)
+
+    print(f"train_sequences={cnt}")
+
+    cnt = 0
+    for a in test_sequences:
+        cnt+=len(a)
+
+    print(f"test_sequences={cnt}")
+
 if __name__ == "__main__":
-    pass
+    preprocess()
     # check_unique_vals()
+    # check_syscalls()
