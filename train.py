@@ -16,23 +16,17 @@ def train_tcn(train_data, test_data):
     test_sequences = lib.get_seq(test_data['sequence'])
     test_labels = lib.get_labels(test_data['label'])
 
-    # Extract sliding windows for training data
     X_train, y_train = lib.extract_sliding_windows(train_sequences, train_labels, window_length)
-
-    # Extract sliding windows for testing data
     X_test, y_test = lib.extract_sliding_windows(test_sequences, test_labels, window_length)
 
-    # Build the TCN model
     model = lib.build_tcn_model(
         window_length,
         nb_filters=nb_filters,
         kernel_size=kernel_size
     )
 
-    # Compile the model
     model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
 
-    # Train the model
     model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_test, y_test), verbose=1)
 
     model.save("./models/tcn_adfa_model.keras")
@@ -51,22 +45,16 @@ def train_lstm(train_data, test_data):
     test_sequences = lib.get_seq(test_data['sequence'])
     test_labels = lib.get_labels(test_data['label'])
 
-    # Extract sliding windows for training data
     X_train, y_train = lib.extract_sliding_windows(train_sequences, train_labels, window_length)
-
-    # Extract sliding windows for testing data
     X_test, y_test = lib.extract_sliding_windows(test_sequences, test_labels, window_length)
 
-    # Build the TCN model
     model = lib.build_lstm_model(
         window_length,
         units=units
     )
 
-    # Compile the model
     model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
 
-    # Train the model
     model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_test, y_test), verbose=1)
 
     model.save("./models/lstm_adfa_model.keras")

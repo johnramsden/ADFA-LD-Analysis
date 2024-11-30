@@ -8,7 +8,6 @@ from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Input, LSTM
 from tcn import TCN
 import lib
-from keras_tuner.tuners import RandomSearch
 import keras_tuner
 from sklearn import model_selection
 import numpy as np
@@ -16,14 +15,14 @@ import numpy as np
 
 def build_lstm_model_cv(hp):
     # Define hyperparameters
-    window_length = hp.Int('window_length', 50, 200, step=10)  # Tune window length
-    units = hp.Int('units', 16, 128, step=16)             # Number of units
+    window_length = hp.Int('window_length', 50, 200, step=10)
+    units = hp.Int('units', 16, 128, step=16)
 
     # Define the model
     model = Sequential([
         Input(shape=(window_length, 1)),  # Input shape uses dynamic window length
         LSTM(units=units),
-        Dense(1, activation="sigmoid")  # Binary classification
+        Dense(1, activation="sigmoid")    # Binary classification
     ])
 
     # Compile the model
@@ -33,18 +32,16 @@ def build_lstm_model_cv(hp):
 
 def build_tcn_model_cv(hp):
     # Define hyperparameters
-    window_length = hp.Int('window_length', 50, 200, step=10)  # Tune window length
-    nb_filters = hp.Int('nb_filters', 16, 128, step=16)  # Number of filters
-    kernel_size = hp.Choice('kernel_size', [2, 3, 5])  # Kernel size
+    window_length = hp.Int('window_length', 50, 200, step=10)
+    nb_filters = hp.Int('nb_filters', 16, 128, step=16)
+    kernel_size = hp.Choice('kernel_size', [2, 3, 5])
 
-    # Define the model
     model = Sequential([
-        Input(shape=(window_length, 1)),  # Input shape uses dynamic window length
+        Input(shape=(window_length, 1)),  # Dynamic window length
         TCN(nb_filters=nb_filters, kernel_size=kernel_size),
-        Dense(1, activation="sigmoid")  # Binary classification
+        Dense(1, activation="sigmoid")    # Binary classification
     ])
 
-    # Compile the model
     model.compile(optimizer="adam", loss="binary_crossentropy", metrics=["accuracy"])
     return model
 
@@ -77,7 +74,6 @@ def hyper_optim_cv(train_data, model_func, tag, max_trials=10, epochs=10, oracle
     train_sequences = lib.get_seq(train_data['sequence'])
     train_labels = lib.get_labels(train_data['label'])
 
-    # Define the tuner
     tuner = CVTuner(
         hypermodel=model_func,
         oracle=oracle(
@@ -88,21 +84,18 @@ def hyper_optim_cv(train_data, model_func, tag, max_trials=10, epochs=10, oracle
         project_name=f"{tag}_tuning_cv"
     )
 
-    # Perform the search
     tuner.search(
         x=train_sequences,
         y=train_labels,
         epochs=epochs
     )
 
-    # Retrieve the best hyperparameters
     best_hps = tuner.get_best_hyperparameters(num_trials=1)[0]
     print("Best hyperparameters:", best_hps.values)
 
     return best_hps
 
 if __name__ == "__main__":
-    # Load data from CSV files
     train_d = pd.read_csv("data/train_data.csv")
     test_d = pd.read_csv("data/test_data.csv")
 

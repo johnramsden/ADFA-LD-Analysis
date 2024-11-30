@@ -1,7 +1,9 @@
 import lib
 import pandas as pd
 import keras
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay
+from sklearn.metrics import (
+    confusion_matrix, ConfusionMatrixDisplay,
+    f1_score, recall_score, accuracy_score)
 import matplotlib.pyplot as plt
 from sklearn.metrics import roc_curve, auc
 from sklearn.metrics import precision_recall_curve
@@ -97,17 +99,37 @@ if __name__ == "__main__":
     # Time
 
     start_tcn = time.time()
-    tcn_predictions = tcn_model.predict(x_test)
+    for _ in range(0, 6):
+        tcn_predictions = tcn_model.predict(x_test)
     end_tcn = time.time()
 
     start_lstm = time.time()
-    lstm_predictions = lstm_model.predict(x_test)
+    for _ in range(0, 6):
+        lstm_predictions = lstm_model.predict(x_test)
     end_lstm = time.time()
 
-    tcn_time = end_tcn - start_tcn
-    lstm_time = end_lstm - start_lstm
+    tcn_time = (end_tcn - start_tcn)/5
+    lstm_time = (end_lstm - start_lstm)/5
 
     plt.bar(["TCN", "LSTM"], [tcn_time, lstm_time])
     plt.ylabel("Time (seconds)")
     plt.title("Prediction Time Comparison")
     plt.show()
+
+    # RAW F1 and Recall
+
+    tcn_f1 = f1_score(y_test, tcn_class_predictions)
+    tcn_recall = recall_score(y_test, tcn_class_predictions)
+    tcn_accuracy = accuracy_score(y_test, tcn_class_predictions)
+
+    print(f"TCN Overall Accuracy: {tcn_accuracy:.4f}")
+    print(f"TCN F1 Score: {tcn_f1:.4f}")
+    print(f"TCN Recall: {tcn_recall:.4f}")
+
+    lstm_f1 = f1_score(y_test, lstm_class_predictions)
+    lstm_recall = recall_score(y_test, lstm_class_predictions)
+    lstm_accuracy = accuracy_score(y_test, lstm_class_predictions)
+
+    print(f"LSTM Overall Accuracy: {lstm_accuracy:.4f}")
+    print(f"LSTM F1 Score: {lstm_f1:.4f}")
+    print(f"LSTM Recall: {lstm_recall:.4f}")
