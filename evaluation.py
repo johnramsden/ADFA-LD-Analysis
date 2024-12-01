@@ -54,21 +54,25 @@ class CVTuner(keras_tuner.engine.tuner.Tuner):
     Modified from:
     https://freedium.cfd/https://python.plainenglish.io/how-to-do-cross-validation-in-keras-tuner-db4b2dbe079a
     """
-    def run_trial(self, trial, x, y, epochs = 10):
+    def run_trial(self, trial, x, y, epochs=10, verbose=0):
         cv = model_selection.KFold(5)
         val_losses = []
+        val_acc = []
 
         window_length = trial.hyperparameters.get('window_length')
         X, y = lib.extract_sliding_windows(x, y, window_length)
 
-        for train_indices, test_indices in cv.split(x):
+        for train_indices, test_indices in cv.split(X):
             x_train, x_test = X[train_indices], X[test_indices]
             y_train, y_test = y[train_indices], y[test_indices]
             model = self.hypermodel.build(trial.hyperparameters)
-            model.fit(x_train, y_train, epochs=epochs)
-            val_losses.append(model.evaluate(x_test, y_test))
+            model.fit(x_train, y_train, epochs=epochs, verbose=verbose)
+            res = model.evaluate(x_test, y_test, verbose=verbose)
+            val_losses.append(res[0])
+            val_acc.append(res[1])
 
-        self.oracle.update_trial(trial.trial_id, {'val_loss': np.mean(val_losses)})
+        self.oracle.update_trial(trial.trial_id, {'val_accuracy': np.mean(val_acc)})
+        print(f"Trial {trial.trial_id} - Loss: {np.mean(val_losses)}, Accuracy: {np.mean(val_acc)}")
 
 def hyper_optim_cv(train_data, model_func, tag, max_trials=10, epochs=10, oracle=keras_tuner.oracles.BayesianOptimizationOracle):
     train_sequences = lib.get_seq(train_data['sequence'])
@@ -77,7 +81,7 @@ def hyper_optim_cv(train_data, model_func, tag, max_trials=10, epochs=10, oracle
     tuner = CVTuner(
         hypermodel=model_func,
         oracle=oracle(
-            objective="val_loss",  # Optimize validation loss
+            objective="val_accuracy",  # Optimize validation loss
             max_trials=max_trials
         ),
         directory="tuning",
@@ -87,7 +91,8 @@ def hyper_optim_cv(train_data, model_func, tag, max_trials=10, epochs=10, oracle
     tuner.search(
         x=train_sequences,
         y=train_labels,
-        epochs=epochs
+        epochs=epochs,
+        verbose=1
     )
 
     best_hps = tuner.get_best_hyperparameters(num_trials=1)[0]

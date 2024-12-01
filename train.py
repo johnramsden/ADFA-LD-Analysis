@@ -6,9 +6,9 @@ import pandas as pd
 import lib
 
 def train_tcn(train_data, test_data):
-    window_length = 95
-    nb_filters = 96
-    kernel_size = 2
+    window_length = 200
+    nb_filters = 64
+    kernel_size = 3
 
     train_sequences = lib.get_seq(train_data['sequence'])
     train_labels = lib.get_labels(train_data['label'])
@@ -36,8 +36,8 @@ def train_tcn(train_data, test_data):
     print(f"Test Loss: {test_loss:.4f}, Test Accuracy: {test_accuracy:.4f}")
 
 def train_lstm(train_data, test_data):
-    window_length = 100
-    units = 96
+    window_length = 200
+    units = 128
 
     train_sequences = lib.get_seq(train_data['sequence'])
     train_labels = lib.get_labels(train_data['label'])
@@ -65,9 +65,10 @@ def train_lstm(train_data, test_data):
 
 
 if __name__ == '__main__':
+
     # Load data from CSV files
     train_d = pd.read_csv("data/train_data.csv")
     test_d = pd.read_csv("data/test_data.csv")
 
-    train_tcn(train_d, test_d) # 0.9446, 95w, 64nb, 2k
-    train_lstm(train_d, test_d) # 0.9544, 96u
+    train_tcn(train_d, test_d) # Test Loss: 0.2506, Test Accuracy: 0.9540, 200w, 64n, 3k
+    train_lstm(train_d, test_d)  # Test Loss: 0.3576, Test Accuracy: 0.9486, 100w, 96u

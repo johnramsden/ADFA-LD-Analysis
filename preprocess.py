@@ -77,6 +77,6 @@ def check_syscalls():
     print(f"test_sequences={cnt}")
 
 if __name__ == "__main__":
-    preprocess()
+    # preprocess()
     # check_unique_vals()
-    # check_syscalls()
+    check_syscalls()

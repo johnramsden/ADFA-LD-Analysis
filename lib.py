@@ -3,6 +3,17 @@ import numpy as np
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Input
 from tcn import TCN
+import tensorflow as tf
+import random, os
+
+# Set the seed for TensorFlow
+tf.random.set_seed(42)
+# Set the seed for NumPy
+np.random.seed(42)
+# Set the seed for Python's random module
+random.seed(42)
+# Optionally set the seed for the OS
+os.environ['PYTHONHASHSEED'] = str(42)
 
 def parse_sequence(sequence):
     """
@@ -16,29 +27,32 @@ def parse_sequence(sequence):
         raise ValueError(f"Invalid sequence format: {sequence}")
 
 
-def extract_sliding_windows(data, labels, window_length):
+def extract_sliding_windows(data: list[list[int]], labels: list, window_length: int) -> tuple:
     """
     Extract sliding windows from sequences with labels.
 
-    Args:
-    - data: List of sequences (each sequence is a list of integers).
-    - labels: Corresponding labels for the sequences.
-    - window_length: Fixed length for each sliding window.
-
-    Returns:
-    - X: Array of sliding windows (num_samples, window_length, 1).
-    - y: Corresponding labels for each window.
+    :param data: List of sequences, where each sequence is a list of integers.
+    :type data: list[list[int]]
+    :param labels: Corresponding labels for the sequences.
+    :type labels: list
+    :param window_length: Fixed length for each sliding window.
+    :type window_length: int
+    :return: A tuple containing:
+             - X: Array of sliding windows with shape (num_samples, window_length, 1).
+             - y: Corresponding labels for each window.
+    :rtype: tuple(numpy.ndarray, numpy.ndarray)
     """
     X = []
     y = []
 
     for sequence, label in zip(data, labels):
+        # These overlap
         for i in range(len(sequence) - window_length + 1):
             window = sequence[i:i + window_length]
             X.append(window)
             y.append(label)
 
-    # Convert to numpy arrays and expand dimensions for TCN input
+    # Convert to numpy arrays and expand dimensions for TCN/LSTM input
     X = np.array(X)
     X = np.expand_dims(X, axis=-1)  # Add feature dimension
     y = np.array(y)
