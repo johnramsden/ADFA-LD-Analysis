@@ -1,0 +1,9 @@
+train_tcn(train_d, test_d) # Test Loss: 0.2506, Test Accuracy: 0.9540, 200w, 64n, 3k
+train_lstm(train_d, test_d)  # Test Loss: 0.3576, Test Accuracy: 0.9486, 100w, 96u
+
+TCN Overall Accuracy: 0.9540
+TCN F1 Score: 0.9537
+TCN Recall: 0.9529
+LSTM Overall Accuracy: 0.9486
+LSTM F1 Score: 0.9491
+LSTM Recall: 0.9681

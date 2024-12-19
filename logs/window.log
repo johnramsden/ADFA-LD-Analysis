@@ -1,0 +1,387 @@
+/home/john/University/Courses/CPSC538/Project/eval/.venv/bin/python /home/john/University/Courses/CPSC538/Project/eval/evaluation.py
+2024-11-26 15:55:51.263895: I tensorflow/core/util/port.cc:153] oneDNN custom operations are on. You may see slightly different numerical results due to floating-point round-off errors from different computation orders. To turn them off, set the environment variable `TF_ENABLE_ONEDNN_OPTS=0`.
+2024-11-26 15:55:51.271049: E external/local_xla/xla/stream_executor/cuda/cuda_fft.cc:477] Unable to register cuFFT factory: Attempting to register factory for plugin cuFFT when one has already been registered
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+E0000 00:00:1732665351.279466  429235 cuda_dnn.cc:8310] Unable to register cuDNN factory: Attempting to register factory for plugin cuDNN when one has already been registered
+E0000 00:00:1732665351.282007  429235 cuda_blas.cc:1418] Unable to register cuBLAS factory: Attempting to register factory for plugin cuBLAS when one has already been registered
+2024-11-26 15:55:51.290642: I tensorflow/core/platform/cpu_feature_guard.cc:210] This TensorFlow binary is optimized to use available CPU instructions in performance-critical operations.
+To enable the following instructions: AVX2 AVX_VNNI FMA, in other operations, rebuild TensorFlow with the appropriate compiler flags.
+WARNING:tensorflow:From /home/john/University/Courses/CPSC538/Project/eval/evaluation.py:3: is_gpu_available (from tensorflow.python.framework.test_util) is deprecated and will be removed in a future version.
+Instructions for updating:
+Use `tf.config.list_physical_devices('GPU')` instead.
+I0000 00:00:1732665352.373445  429235 gpu_device.cc:2022] Created device /device:GPU:0 with 19668 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 4090, pci bus id: 0000:01:00.0, compute capability: 8.9
+
+Testing with window length: 15
+  - Fold 1/5
+I0000 00:00:1732665353.106903  429235 gpu_device.cc:2022] Created device /job:localhost/replica:0/task:0/device:GPU:0 with 19668 MB memory:  -> device: 0, name: NVIDIA GeForce RTX 4090, pci bus id: 0000:01:00.0, compute capability: 8.9
+I0000 00:00:1732665354.186252  429381 cuda_dnn.cc:529] Loaded cuDNN version 90300
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 15, Average CV Accuracy: 0.8952 ± 0.0112
+  - Test Loss: 0.2352, Test Accuracy: 0.9140
+
+Testing with window length: 20
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 20, Average CV Accuracy: 0.8969 ± 0.0197
+  - Test Loss: 0.2219, Test Accuracy: 0.9222
+
+Testing with window length: 25
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 25, Average CV Accuracy: 0.9038 ± 0.0218
+  - Test Loss: 0.2215, Test Accuracy: 0.9353
+
+Testing with window length: 30
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 30, Average CV Accuracy: 0.9030 ± 0.0244
+  - Test Loss: 0.2619, Test Accuracy: 0.9293
+
+Testing with window length: 35
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 35, Average CV Accuracy: 0.9077 ± 0.0166
+  - Test Loss: 0.2352, Test Accuracy: 0.9363
+
+Testing with window length: 40
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 40, Average CV Accuracy: 0.9063 ± 0.0187
+  - Test Loss: 0.2762, Test Accuracy: 0.9318
+
+Testing with window length: 45
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 45, Average CV Accuracy: 0.9138 ± 0.0190
+  - Test Loss: 0.3013, Test Accuracy: 0.9316
+
+Testing with window length: 50
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 50, Average CV Accuracy: 0.9212 ± 0.0150
+  - Test Loss: 0.2324, Test Accuracy: 0.9447
+
+Testing with window length: 55
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 55, Average CV Accuracy: 0.9162 ± 0.0273
+  - Test Loss: 0.2716, Test Accuracy: 0.9449
+
+Testing with window length: 60
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 60, Average CV Accuracy: 0.9234 ± 0.0126
+  - Test Loss: 0.2887, Test Accuracy: 0.9456
+
+Testing with window length: 65
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 65, Average CV Accuracy: 0.9314 ± 0.0178
+  - Test Loss: 0.2098, Test Accuracy: 0.9524
+
+Testing with window length: 70
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 70, Average CV Accuracy: 0.9286 ± 0.0148
+  - Test Loss: 0.2795, Test Accuracy: 0.9493
+
+Testing with window length: 75
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 75, Average CV Accuracy: 0.9234 ± 0.0163
+  - Test Loss: 0.2305, Test Accuracy: 0.9479
+
+Testing with window length: 80
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 80, Average CV Accuracy: 0.9341 ± 0.0161
+  - Test Loss: 0.2602, Test Accuracy: 0.9532
+
+Testing with window length: 85
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 85, Average CV Accuracy: 0.9332 ± 0.0167
+  - Test Loss: 0.2647, Test Accuracy: 0.9503
+
+Testing with window length: 90
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 90, Average CV Accuracy: 0.9277 ± 0.0111
+  - Test Loss: 0.3722, Test Accuracy: 0.9418
+
+Testing with window length: 95
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 95, Average CV Accuracy: 0.9316 ± 0.0142
+  - Test Loss: 0.2429, Test Accuracy: 0.9517
+
+Testing with window length: 100
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 100, Average CV Accuracy: 0.9317 ± 0.0186
+  - Test Loss: 0.2130, Test Accuracy: 0.9550
+{'window_length': 100, 'cv_accuracy_mean': np.float64(0.9317126035690307), 'cv_accuracy_std': np.float64(0.01862952877719511), 'test_loss': 0.21296323835849762, 'test_accuracy': 0.9550421237945557}
+{'window_length': 80, 'cv_accuracy_mean': np.float64(0.9340551257133484), 'cv_accuracy_std': np.float64(0.016124069282558263), 'test_loss': 0.2602400779724121, 'test_accuracy': 0.9532339572906494}
+{'window_length': 65, 'cv_accuracy_mean': np.float64(0.931447970867157), 'cv_accuracy_std': np.float64(0.017808563022221852), 'test_loss': 0.20977364480495453, 'test_accuracy': 0.9523975849151611}
+{'window_length': 95, 'cv_accuracy_mean': np.float64(0.9316351890563965), 'cv_accuracy_std': np.float64(0.014219689042894515), 'test_loss': 0.24291226267814636, 'test_accuracy': 0.9517144560813904}
+{'window_length': 85, 'cv_accuracy_mean': np.float64(0.9331565618515014), 'cv_accuracy_std': np.float64(0.016717111127171436), 'test_loss': 0.2646571397781372, 'test_accuracy': 0.9503397941589355}
+{'window_length': 70, 'cv_accuracy_mean': np.float64(0.9285519123077393), 'cv_accuracy_std': np.float64(0.014815420803878628), 'test_loss': 0.27952662110328674, 'test_accuracy': 0.9492602348327637}
+{'window_length': 75, 'cv_accuracy_mean': np.float64(0.9233987927436829), 'cv_accuracy_std': np.float64(0.016278976774146366), 'test_loss': 0.23047377169132233, 'test_accuracy': 0.9479469060897827}
+{'window_length': 60, 'cv_accuracy_mean': np.float64(0.9234225869178772), 'cv_accuracy_std': np.float64(0.012633742013108098), 'test_loss': 0.2886739671230316, 'test_accuracy': 0.9456165432929993}
+{'window_length': 55, 'cv_accuracy_mean': np.float64(0.9161539554595948), 'cv_accuracy_std': np.float64(0.027343020056247114), 'test_loss': 0.2716157138347626, 'test_accuracy': 0.9448502659797668}
+{'window_length': 50, 'cv_accuracy_mean': np.float64(0.9212353229522705), 'cv_accuracy_std': np.float64(0.014958187020454995), 'test_loss': 0.2324426919221878, 'test_accuracy': 0.9447328448295593}
+{'window_length': 90, 'cv_accuracy_mean': np.float64(0.9276781916618347), 'cv_accuracy_std': np.float64(0.011087841255990572), 'test_loss': 0.3721829056739807, 'test_accuracy': 0.9417752027511597}
+{'window_length': 35, 'cv_accuracy_mean': np.float64(0.9077058553695678), 'cv_accuracy_std': np.float64(0.01659105080226525), 'test_loss': 0.23521845042705536, 'test_accuracy': 0.9362805485725403}
+{'window_length': 25, 'cv_accuracy_mean': np.float64(0.9038172602653504), 'cv_accuracy_std': np.float64(0.02178788135518989), 'test_loss': 0.22146481275558472, 'test_accuracy': 0.9352874159812927}
+{'window_length': 40, 'cv_accuracy_mean': np.float64(0.9062541484832763), 'cv_accuracy_std': np.float64(0.018736823885017163), 'test_loss': 0.2761620283126831, 'test_accuracy': 0.9318088889122009}
+{'window_length': 45, 'cv_accuracy_mean': np.float64(0.9138080954551697), 'cv_accuracy_std': np.float64(0.018975068131548364), 'test_loss': 0.3013445734977722, 'test_accuracy': 0.9316312670707703}
+{'window_length': 30, 'cv_accuracy_mean': np.float64(0.9029580593109131), 'cv_accuracy_std': np.float64(0.024350365418992746), 'test_loss': 0.26191386580467224, 'test_accuracy': 0.9293131828308105}
+{'window_length': 20, 'cv_accuracy_mean': np.float64(0.8968628644943237), 'cv_accuracy_std': np.float64(0.019667146550169576), 'test_loss': 0.22192393243312836, 'test_accuracy': 0.9221950173377991}
+{'window_length': 15, 'cv_accuracy_mean': np.float64(0.8952412962913513), 'cv_accuracy_std': np.float64(0.011183578173450691), 'test_loss': 0.23522154986858368, 'test_accuracy': 0.9140443801879883}
+
+Testing with window length: 15
+  - Fold 1/5
+WARNING: All log messages before absl::InitializeLog() is called are written to STDERR
+I0000 00:00:1732717257.699191  429379 service.cc:148] XLA service 0x77327c0082e0 initialized for platform CUDA (this does not guarantee that XLA will be used). Devices:
+I0000 00:00:1732717257.699206  429379 service.cc:156]   StreamExecutor device (0): NVIDIA GeForce RTX 4090, Compute Capability 8.9
+2024-11-27 06:20:57.739258: I tensorflow/compiler/mlir/tensorflow/utils/dump_mlir_util.cc:268] disabling MLIR crash reproducer, set env var `MLIR_CRASH_REPRODUCER_DIRECTORY` to enable.
+I0000 00:00:1732717259.212225  429379 device_compiler.h:188] Compiled cluster using XLA!  This line is logged at most once for the lifetime of the process.
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 15, Average CV Accuracy: 0.8070 ± 0.0328
+  - Test Loss: 0.3679, Test Accuracy: 0.8421
+
+Testing with window length: 20
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+2024-11-27 06:39:10.231088: I external/local_xla/xla/stream_executor/cuda/cuda_asm_compiler.cc:397] ptxas warning : Registers are spilled to local memory in function 'loop_add_subtract_fusion_3', 12 bytes spill stores, 12 bytes spill loads
+
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 20, Average CV Accuracy: 0.8361 ± 0.0176
+  - Test Loss: 0.3323, Test Accuracy: 0.8614
+
+Testing with window length: 25
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 25, Average CV Accuracy: 0.8409 ± 0.0134
+  - Test Loss: 0.3452, Test Accuracy: 0.8578
+
+Testing with window length: 30
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 30, Average CV Accuracy: 0.8412 ± 0.0153
+  - Test Loss: 0.3498, Test Accuracy: 0.8604
+
+Testing with window length: 35
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 35, Average CV Accuracy: 0.8517 ± 0.0255
+  - Test Loss: 0.3276, Test Accuracy: 0.8705
+
+Testing with window length: 40
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 40, Average CV Accuracy: 0.8184 ± 0.0412
+  - Test Loss: 0.3703, Test Accuracy: 0.8588
+
+Testing with window length: 45
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 45, Average CV Accuracy: 0.8415 ± 0.0177
+  - Test Loss: 0.3504, Test Accuracy: 0.8587
+
+Testing with window length: 50
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 50, Average CV Accuracy: 0.8540 ± 0.0424
+  - Test Loss: 0.3075, Test Accuracy: 0.8970
+
+Testing with window length: 55
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 55, Average CV Accuracy: 0.8792 ± 0.0166
+  - Test Loss: 0.3511, Test Accuracy: 0.8901
+
+Testing with window length: 60
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 60, Average CV Accuracy: 0.8677 ± 0.0158
+  - Test Loss: 0.3840, Test Accuracy: 0.8817
+
+Testing with window length: 65
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 65, Average CV Accuracy: 0.8727 ± 0.0446
+  - Test Loss: 0.3628, Test Accuracy: 0.8976
+
+Testing with window length: 70
+  - Fold 1/5
+  - Fold 2/5
+2024-11-27 07:54:06.420456: I external/local_xla/xla/stream_executor/cuda/cuda_asm_compiler.cc:397] ptxas warning : Registers are spilled to local memory in function 'input_reduce_select_fusion_3', 4 bytes spill stores, 4 bytes spill loads
+
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 70, Average CV Accuracy: 0.8737 ± 0.0279
+  - Test Loss: 0.3706, Test Accuracy: 0.9121
+
+Testing with window length: 75
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 75, Average CV Accuracy: 0.8804 ± 0.0206
+  - Test Loss: 0.6389, Test Accuracy: 0.8795
+
+Testing with window length: 80
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+2024-11-27 08:35:02.693059: I external/local_xla/xla/stream_executor/cuda/cuda_asm_compiler.cc:397] ptxas warning : Registers are spilled to local memory in function 'input_select_transpose_fusion', 8 bytes spill stores, 8 bytes spill loads
+
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 80, Average CV Accuracy: 0.8848 ± 0.0359
+  - Test Loss: 1.9203, Test Accuracy: 0.9272
+
+Testing with window length: 85
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 85, Average CV Accuracy: 0.8983 ± 0.0184
+  - Test Loss: 0.8174, Test Accuracy: 0.9069
+
+Testing with window length: 90
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 90, Average CV Accuracy: 0.8979 ± 0.0279
+  - Test Loss: 0.4469, Test Accuracy: 0.9186
+
+Testing with window length: 95
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 95, Average CV Accuracy: 0.9092 ± 0.0241
+  - Test Loss: 0.5873, Test Accuracy: 0.9311
+
+Testing with window length: 100
+  - Fold 1/5
+  - Fold 2/5
+  - Fold 3/5
+  - Fold 4/5
+  - Fold 5/5
+Window Length: 100, Average CV Accuracy: 0.8779 ± 0.0490
+  - Test Loss: 0.6373, Test Accuracy: 0.9080
+{'window_length': 95, 'cv_accuracy_mean': np.float64(0.9092137455940247), 'cv_accuracy_std': np.float64(0.024111226234098313), 'test_loss': 0.5873181223869324, 'test_accuracy': 0.9310585856437683}
+{'window_length': 80, 'cv_accuracy_mean': np.float64(0.884798014163971), 'cv_accuracy_std': np.float64(0.03592205198594274), 'test_loss': 1.9202983379364014, 'test_accuracy': 0.9272328615188599}
+{'window_length': 90, 'cv_accuracy_mean': np.float64(0.8979074239730835), 'cv_accuracy_std': np.float64(0.027902903617004666), 'test_loss': 0.4469306170940399, 'test_accuracy': 0.9186325073242188}
+{'window_length': 70, 'cv_accuracy_mean': np.float64(0.8737122297286988), 'cv_accuracy_std': np.float64(0.027870161208445647), 'test_loss': 0.3706075847148895, 'test_accuracy': 0.9120562672615051}
+{'window_length': 100, 'cv_accuracy_mean': np.float64(0.8779053211212158), 'cv_accuracy_std': np.float64(0.048989902174888855), 'test_loss': 0.6372911930084229, 'test_accuracy': 0.9079542756080627}
+{'window_length': 85, 'cv_accuracy_mean': np.float64(0.898258900642395), 'cv_accuracy_std': np.float64(0.018360824963150214), 'test_loss': 0.8173679113388062, 'test_accuracy': 0.906933605670929}
+{'window_length': 65, 'cv_accuracy_mean': np.float64(0.8727292418479919), 'cv_accuracy_std': np.float64(0.04462944185630222), 'test_loss': 0.36276131868362427, 'test_accuracy': 0.8976078033447266}
+{'window_length': 50, 'cv_accuracy_mean': np.float64(0.854014801979065), 'cv_accuracy_std': np.float64(0.042351796143841686), 'test_loss': 0.30754655599594116, 'test_accuracy': 0.8969749808311462}
+{'window_length': 55, 'cv_accuracy_mean': np.float64(0.8792471408843994), 'cv_accuracy_std': np.float64(0.016579638554318318), 'test_loss': 0.35112112760543823, 'test_accuracy': 0.8900956511497498}
+{'window_length': 60, 'cv_accuracy_mean': np.float64(0.8677103519439697), 'cv_accuracy_std': np.float64(0.01576607116032221), 'test_loss': 0.38397592306137085, 'test_accuracy': 0.8816522359848022}
+{'window_length': 75, 'cv_accuracy_mean': np.float64(0.880355179309845), 'cv_accuracy_std': np.float64(0.020603050826303655), 'test_loss': 0.6388905644416809, 'test_accuracy': 0.8795178532600403}
+{'window_length': 35, 'cv_accuracy_mean': np.float64(0.8516966700553894), 'cv_accuracy_std': np.float64(0.02553945863505182), 'test_loss': 0.3276374936103821, 'test_accuracy': 0.8704670667648315}
+{'window_length': 20, 'cv_accuracy_mean': np.float64(0.8361336588859558), 'cv_accuracy_std': np.float64(0.017642143272805114), 'test_loss': 0.33234238624572754, 'test_accuracy': 0.8614218235015869}
+{'window_length': 30, 'cv_accuracy_mean': np.float64(0.8411887645721435), 'cv_accuracy_std': np.float64(0.015277294987313788), 'test_loss': 0.3498040735721588, 'test_accuracy': 0.8603869676589966}
+{'window_length': 40, 'cv_accuracy_mean': np.float64(0.8184331059455872), 'cv_accuracy_std': np.float64(0.04120144636552254), 'test_loss': 0.3703155517578125, 'test_accuracy': 0.8587736487388611}
+{'window_length': 45, 'cv_accuracy_mean': np.float64(0.8414811491966248), 'cv_accuracy_std': np.float64(0.017662750390721134), 'test_loss': 0.3503642678260803, 'test_accuracy': 0.8587154150009155}
+{'window_length': 25, 'cv_accuracy_mean': np.float64(0.8409073710441589), 'cv_accuracy_std': np.float64(0.013423284081455942), 'test_loss': 0.3451860249042511, 'test_accuracy': 0.8578207492828369}
+{'window_length': 15, 'cv_accuracy_mean': np.float64(0.8070230722427368), 'cv_accuracy_std': np.float64(0.0328318702680386), 'test_loss': 0.3678758144378662, 'test_accuracy': 0.8421393036842346}
+
+Process finished with exit code 0
